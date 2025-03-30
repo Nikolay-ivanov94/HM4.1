@@ -5,6 +5,7 @@ import ru.hogwarts.school.models.Faculty;
 import ru.hogwarts.school.models.Student;
 import ru.hogwarts.school.services.StudentService;
 import java.util.Collection;
+import java.util.List;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
@@ -67,5 +68,23 @@ public class StudentController {
     @GetMapping("/get/last-five")
     public ResponseEntity<Collection<Student>> getLastFiveStudents() {
         return ResponseEntity.ok(studentService.getLastFiveStudents());
+    }
+    @GetMapping("/get/names-started-with/{letter}")
+    public List<String> getStudentsNamesStartedWith(@PathVariable String letter) {
+        return studentService.getStudentsNamesStartedWith(letter);
+    }
+
+    @GetMapping("/get/avg-age-streamed")
+    public Integer getAvgAgeOfStudentsStreamed() {
+        return studentService.getStudentsAvgAge();
+    }
+    @GetMapping("/print-parallel")
+    public void printStudentsParallel() {
+        studentService.printStudents(StudentService::printParallel);
+    }
+
+    @GetMapping("/print-synchronized")
+    public void printStudentsSynchronized() {
+        studentService.printStudents(StudentService::printSynchronized);
     }
 }
